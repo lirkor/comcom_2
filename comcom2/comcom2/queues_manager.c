@@ -38,12 +38,13 @@ flow_node* search_flow(char* flow_id) {
 
 
 
-int add_flow(char* flow_id) {
+flow_node* add_flow(char* flow_id) {
 	flow_node* new_flow_node;
 	
 
 	new_flow_node = (flow_node*)malloc(sizeof(flow_node));
 	new_flow_node->credit = 0;
+	memset(new_flow_node->flow_identifier, 0, sizeof(new_flow_node->flow_identifier));
 	strcpy(new_flow_node->flow_identifier, flow_id);
 	new_flow_node->packets_list = NULL;
 	new_flow_node->next = NULL;
@@ -64,7 +65,7 @@ int add_flow(char* flow_id) {
 		
 	}
 
-	return 0;
+	return new_flow_node;
 }
 
 
