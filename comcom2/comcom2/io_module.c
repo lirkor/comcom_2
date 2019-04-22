@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -25,7 +25,7 @@ void print_pkt_info(packet_info* pkt) {
 int get_line(char* line) {
 	char* res = NULL;
 	res = fgets(line, 128,infile);
-	if (res == NULL || res == EOF) {
+	if (res == NULL) {
 		printf("done reading\n");
 		return 0;
 	}

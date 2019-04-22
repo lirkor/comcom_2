@@ -1,7 +1,9 @@
+
+
 #include <stdio.h>
 #include "main.h"
 #include "io_module.h"
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 
 int initialize(char* infile_path, char* outfile_path) {
 	if ((infile = fopen(infile_path, "r")) == NULL) {

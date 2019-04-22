@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "queues_manager.h"
-
+#define _CRT_SECURE_NO_WARNINGS
 
 
 

@@ -85,6 +85,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)  _CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -117,11 +118,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="io_module.c" />
-    <ClCompile Include="main.c" />
-    <ClCompile Include="queues_manager.c" />
-    <ClCompile Include="scheduler.c" />
+    <ClCompile Include="main.c">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="queues_manager.c">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_MBCS;%(PreprocessorDefinitions) </PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="scheduler.c">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_MBCS;%(PreprocessorDefinitions) _CRT_SECURE_NO_WARNING</PreprocessorDefinitions>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="io_module.h" />
+    <ClInclude Include="main.h" />
     <ClInclude Include="queues_manager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

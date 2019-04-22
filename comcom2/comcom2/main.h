@@ -1,5 +1,4 @@
 #include <stdio.h>
-#define _CRT_SECURE_NO_WARNINGS
 
 #ifndef _MAIN_
 #define _MAIN_
