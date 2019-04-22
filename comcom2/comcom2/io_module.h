@@ -3,18 +3,6 @@
 #define _IO_MODULE_
 
 //globals
-/*
-typedef struct packet_info {
-	char* pktID;
-	char* Time;
-	char* Sadd;
-	char* Sport;
-	char* Dadd;
-	char* Dport;
-	char* length;
-	char* weight;
-}packet_info;
-*/
 
 typedef struct packet_info {
 char pktID[20];

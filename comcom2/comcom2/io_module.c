@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
 //#include "queues_manager.h"s
 #include "main.h"
 #include "io_module.h"
@@ -57,7 +58,7 @@ packet_info* parse_line() {
 	if ((weight = strtok(NULL, " ")) != NULL) {
 		strcpy(pkt->weight,weight);
 	}
-	print_pkt_info(pkt);
+	//print_pkt_info(pkt); //debug
 	return pkt;
 }
 

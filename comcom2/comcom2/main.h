@@ -6,7 +6,8 @@
 //globals
 FILE* infile;
 FILE* outfile;
-long int Time = 0;
+long int total_time;
+int default_weight;
 //function declarations
 
 #endif
