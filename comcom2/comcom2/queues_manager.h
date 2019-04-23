@@ -6,6 +6,7 @@
 typedef struct packet_node {
 
 	long packet_id;
+	int packet_length;
 	struct packet_node* next;
 	struct packet_node* prev;
 
@@ -14,10 +15,11 @@ typedef struct packet_node {
 
 typedef struct flow_node {
 
-	char*		 flow_identifier;
+	char		 flow_identifier[50];
 	packet_node* packets_list;
 	packet_node* last_packet_node;
 	int			 credit;
+	int			 weight;
 	struct flow_node*	 next;
 	struct flow_node*	 prev;
 
