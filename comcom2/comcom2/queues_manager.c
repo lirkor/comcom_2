@@ -38,7 +38,7 @@ flow_node* search_flow(char* flow_id) {
 
 
 
-flow_node* add_flow(char* flow_id) {
+flow_node* add_flow(char* flow_id, char* flow_weight) {
 	flow_node* new_flow_node;
 	
 
@@ -48,6 +48,7 @@ flow_node* add_flow(char* flow_id) {
 	strcpy(new_flow_node->flow_identifier, flow_id);
 	new_flow_node->packets_list = NULL;
 	new_flow_node->next = NULL;
+	new_flow_node->weight = atoi(flow_weight);
 
 
 	/* First node to add */
@@ -60,8 +61,9 @@ flow_node* add_flow(char* flow_id) {
 		/* else - flows list is not empty, update the last one to point to the new flow,
 		   and the new flow node to point backwards to the last one */
 
-		new_flow_node->prev = flows.last_node;
 		flows.last_node->next = new_flow_node;
+		new_flow_node->prev = flows.last_node;
+		flows.last_node = new_flow_node;
 		
 	}
 
@@ -93,13 +95,14 @@ packet_node* search_packet_node_at_flow(flow_node* flow, long packet_id) {
 }
 
 
-int add_packet_to_flow(flow_node* flow, long packet_id) {
+packet_node* add_packet_to_flow(flow_node* flow, long packet_id, int length) {
 	packet_node* new_packet_node;
 
 	new_packet_node = (packet_node*)malloc(sizeof(packet_node));
 
 	new_packet_node->next = NULL;
 	new_packet_node->packet_id = packet_id;
+	new_packet_node->packet_length = length;
 
 	if (flow->packets_list == NULL) {
 		flow->packets_list = new_packet_node;
@@ -107,11 +110,12 @@ int add_packet_to_flow(flow_node* flow, long packet_id) {
 		flow->last_packet_node = new_packet_node;
 	}
 	else {
+		flow->last_packet_node->next = new_packet_node;
 		new_packet_node->prev = flow->last_packet_node;
 		flow->last_packet_node = new_packet_node;
 	}
 
-	return 0;
+	return new_packet_node;
 
 }
 

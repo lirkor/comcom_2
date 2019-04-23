@@ -6,6 +6,7 @@
 //#include "queues_manager.h"s
 #include "main.h"
 #include "io_module.h"
+#include "queues_manager.h"
 
 //globals
 packet_info* over_pkt = NULL; //when we over read, we save the overread packet for next time change
@@ -28,11 +29,11 @@ void print_pkt_info(packet_info* pkt) {
 int get_line(char* line) {
 	char* res = NULL;
 	res = fgets(line, 128,infile);
-	if (res == NULL) {
-		printf("done reading\n");
+	if (res == NULL) { //done reading file
+		//printf("done reading\n"); //debug
 		return 0;
 	}
-	printf("line received = %s", line); //debug
+	//printf("line received = %s", line); //debug
 	return 1;
 }
 
@@ -52,7 +53,7 @@ int receive_until_time() {
 			return num_received;
 		}
 		num_received += 1;
-		//process_packet_info(over_pkt);
+		process_packet_info(over_pkt);
 		over_pkt = NULL;
 	}
 
@@ -64,7 +65,7 @@ int receive_until_time() {
 			break;
 		}
 		num_received += 1;
-		//process_packet_info(pkt);
+		process_packet_info(pkt);
 	}
 	return num_received;
 }
@@ -72,8 +73,8 @@ int receive_until_time() {
 packet_info* parse_line() {
 	char line[128];
 	char* weight;
-	if (get_line(line) == 0) {
-		printf("done parsing\n");
+	if (get_line(line) == 0) { //get_line return 0 because it reached end of file
+		//printf("done parsing\n"); //debug
 		return NULL;
 	}
 	packet_info* pkt = new_packet();
@@ -86,6 +87,10 @@ packet_info* parse_line() {
 	strcpy(pkt->length,strtok(NULL, " "));
 	if ((weight = strtok(NULL, " ")) != NULL) {
 		strcpy(pkt->weight,weight);
+		pkt->weight[strlen(pkt->weight)-1] = '\0';
+	}
+	else {
+		strcpy(pkt->weight, default_weight);
 	}
 	return pkt;
 }

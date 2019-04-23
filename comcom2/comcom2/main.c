@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "main.h"
 #include "io_module.h"
+#include "queues_manager.h"
+#include "scheduler.h"
 //#define _CRT_SECURE_NO_WARNINGS
 
 int initialize(char* infile_path, char* outfile_path) {
@@ -15,8 +17,8 @@ int initialize(char* infile_path, char* outfile_path) {
 		return -1;
 	}
 	total_time = 0;
-
-	
+	default_weight = "30";
+	return 1;
 }
 
 int finalize() {
@@ -32,9 +34,10 @@ int finalize() {
 
 
 int main() {
-	char* in_path = "inp1.txt";
+	char* in_path = "inp3.txt";
 	char* out_path = "out.txt";
 	initialize(in_path, out_path);
-	tests();
+	weighted_round_robin();
+	finalize();
 	return 1;
 }

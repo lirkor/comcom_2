@@ -125,13 +125,14 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_MBCS;%(PreprocessorDefinitions) </PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="scheduler.c">
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_MBCS;%(PreprocessorDefinitions) _CRT_SECURE_NO_WARNING</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="io_module.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="queues_manager.h" />
+    <ClInclude Include="scheduler.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

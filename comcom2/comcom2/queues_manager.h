@@ -40,9 +40,9 @@ extern flows_control_sentinel flows;
 
 
 flow_node* search_flow(char* flow_id);
-int add_flow(char* flow_id);
+flow_node* add_flow(char* flow_id, char* flow_weight);
 packet_node* search_packet_node_at_flow(flow_node* flow, long packet_id);
-int add_packet_to_flow(flow_node* flow, long packet_id);
+packet_node* add_packet_to_flow(flow_node* flow, long packet_id, char* length);
 int delete_packet_node_from_flow(flow_node* flow, packet_node* packet_to_delete);
 
 
