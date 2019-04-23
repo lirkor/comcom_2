@@ -7,6 +7,9 @@
 #include "main.h"
 #include "io_module.h"
 
+//globals
+packet_info* over_pkt = NULL; //when we over read, we save the overread packet for next time change
+
 
 void print_pkt_info(packet_info* pkt) {
 	printf("packet ID - %s	", pkt->pktID);
@@ -39,6 +42,32 @@ packet_info* new_packet() {
 	return pkt;
 }
 
+int receive_until_time() {
+	packet_info* pkt;
+	int num_received = 0;
+	int pkt_time;
+	if (over_pkt != NULL) {
+		pkt_time = atoi(over_pkt->Time);
+		if (pkt_time > total_time) {
+			return num_received;
+		}
+		num_received += 1;
+		//process_packet_info(over_pkt);
+		over_pkt = NULL;
+	}
+
+	while ((pkt = parse_line()) != NULL) {
+		print_pkt_info(pkt); //debug
+		pkt_time = atoi(pkt->Time);
+		if (pkt_time > total_time) { //if we overread
+			over_pkt = pkt; //saving overread packet for next time change
+			break;
+		}
+		num_received += 1;
+		//process_packet_info(pkt);
+	}
+	return num_received;
+}
 
 packet_info* parse_line() {
 	char line[128];
@@ -58,14 +87,18 @@ packet_info* parse_line() {
 	if ((weight = strtok(NULL, " ")) != NULL) {
 		strcpy(pkt->weight,weight);
 	}
-	//print_pkt_info(pkt); //debug
 	return pkt;
 }
 
 void tests() {
-	packet_info* pkt;
-	while ((pkt = parse_line()) != NULL) {
-		print_pkt_info(pkt);
+	//testing receive_until_time
+	if (1) {
+		int num_received;
+		while (total_time < 120) {
+			num_received = receive_until_time();
+			printf("total_time is currently - %d, received %d lines\n", total_time, num_received);
+			total_time += 1;
+		}
 	}
 	printf("done tests\n");
 }

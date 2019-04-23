@@ -14,6 +14,7 @@ int initialize(char* infile_path, char* outfile_path) {
 		printf("error opening outfile from path %s", outfile_path);
 		return -1;
 	}
+	total_time = 0;
 
 	
 }

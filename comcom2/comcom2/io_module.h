@@ -15,6 +15,8 @@ typedef struct packet_info {
 	char weight[20];
 	}packet_info;
 
+packet_info* over_pkt;
+
 //function declarations
 void print_pkt_info(packet_info* pkt);
 int get_line(char* line);
