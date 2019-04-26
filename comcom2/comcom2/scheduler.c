@@ -56,7 +56,13 @@ int goto_closest_time() {
 	return 1;
 }
 
-
+void goto_next_flow(flow_node** curr_flow_ptr, int* sent_count_ptr) {
+	*curr_flow_ptr = (*curr_flow_ptr)->next;
+	*sent_count_ptr = 0;
+	if (*curr_flow_ptr == NULL) {
+		*curr_flow_ptr = flows.flows_list;
+	}
+}
 //WRR main function
 int weighted_round_robin() {
 	flow_node* curr_flow = NULL; //points to the current working flow
@@ -87,11 +93,7 @@ int weighted_round_robin() {
 
 		//finding a none-empty flow to send from
 		while (curr_flow->packets_list == NULL) {
-			curr_flow = curr_flow->next;
-			flow_sent_count = 0;
-			if (curr_flow == NULL) {
-				curr_flow = flows.flows_list;
-			}
+			goto_next_flow(&curr_flow, &flow_sent_count);
 		}
 
 		//sending a single packet from flow, if allowed
@@ -103,8 +105,7 @@ int weighted_round_robin() {
 			total_sent += 1;
 		}
 		else { //we cant go over the weight limit, so we go to the next flow
-			curr_flow = curr_flow->next;
-			flow_sent_count = 0;
+			goto_next_flow(&curr_flow, &flow_sent_count);
 		}
 	}
 }
