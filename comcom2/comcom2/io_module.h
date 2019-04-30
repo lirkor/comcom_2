@@ -21,7 +21,6 @@ packet_info* over_pkt;
 void print_pkt_info(packet_info* pkt);
 int get_line(char* line);
 packet_info* parse_line();
-void tests();
 int receive_until_time();
 
 #endif
