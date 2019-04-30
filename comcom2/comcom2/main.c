@@ -5,7 +5,6 @@
 #include "io_module.h"
 #include "queues_manager.h"
 #include "scheduler.h"
-//#define _CRT_SECURE_NO_WARNINGS
 
 int initialize(char* infile_path, char* outfile_path) {
 	if ((infile = fopen(infile_path, "r")) == NULL) {
