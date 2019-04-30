@@ -39,7 +39,7 @@ int main() {
 	char* out_path = "out.txt";
 	initialize(in_path, out_path);
 	//weighted_round_robin();
-	deficit_round_robin(100);
+	deficit_round_robin();
 	finalize();
 	return 1;
 }

@@ -139,6 +139,7 @@ flow_node* goto_next_flow_drr(flow_node* current_node) {
 		else {
 			node_ptr->credit = 0;
 		}
+		node_ptr = node_ptr->next;
 	}
 
 	current_node->credit = 0;
@@ -168,13 +169,9 @@ int deficit_round_robin() {
 	int first_time = 1; //flag
 	int total_packets = 0; //indicates the number of all the packets in all of the flows for the current time
 	int total_sent = 0;
-	int counter = 0;
 
 	while (1) {
-		printf("%d\n", counter);
-		counter += 1;
 		// receiving packets according to time
-		
 		num_received = receive_until_time();
 		if (num_received == 0 && total_packets == 0) {
 			if (goto_closest_time() == -1) {
@@ -208,6 +205,7 @@ int deficit_round_robin() {
 			total_packets -= 1;
 			total_sent += 1;
 		}
+
 		else {
 			curr_flow = goto_next_flow_drr(curr_flow);
 		}
