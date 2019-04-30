@@ -58,7 +58,7 @@ int receive_until_time() {
 	}
 
 	while ((pkt = parse_line()) != NULL) {
-		print_pkt_info(pkt); //debug
+		//print_pkt_info(pkt); //debug
 		pkt_time = atoi(pkt->Time);
 		if (pkt_time > total_time) { //if we overread
 			over_pkt = pkt; //saving overread packet for next time change

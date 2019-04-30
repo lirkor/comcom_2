@@ -13,5 +13,6 @@ int check_RR(flow_node* flow, int flow_sent_count);
 int send_single_packet(flow_node* flow);
 int goto_closest_time();
 int weighted_round_robin();
+int deficit_round_robin();
 
 #endif

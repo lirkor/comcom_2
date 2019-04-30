@@ -18,6 +18,7 @@ int initialize(char* infile_path, char* outfile_path) {
 	}
 	total_time = 0;
 	default_weight = "30";
+	quantum = 200;
 	return 1;
 }
 
@@ -34,10 +35,11 @@ int finalize() {
 
 
 int main() {
-	char* in_path = "inp3.txt";
+	char* in_path = "inp1.txt";
 	char* out_path = "out.txt";
 	initialize(in_path, out_path);
-	weighted_round_robin();
+	//weighted_round_robin();
+	deficit_round_robin(100);
 	finalize();
 	return 1;
 }
