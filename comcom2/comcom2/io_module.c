@@ -11,7 +11,7 @@
 //globals
 packet_info* over_pkt = NULL; //when we over read, we save the overread packet for next time change
 
-
+//testing function to print out the pkt struct information
 void print_pkt_info(packet_info* pkt) {
 	printf("packet ID - %s	", pkt->pktID);
 	printf("packet Time - %s	", pkt->Time);
@@ -26,23 +26,25 @@ void print_pkt_info(packet_info* pkt) {
 	printf("\n");
 }
 
+// simple function to get one line from the input file
 int get_line(char* line) {
 	char* res = NULL;
 	res = fgets(line, 128,infile);
 	if (res == NULL) { //done reading file
-		//printf("done reading\n"); //debug
 		return 0;
 	}
-	//printf("line received = %s", line); //debug
 	return 1;
 }
 
+//function for creating and intializing a pkt instance
 packet_info* new_packet() {
 	packet_info* pkt = (packet_info*)malloc(sizeof(packet_info));
 	memset(pkt->weight, 0, sizeof(pkt->weight));
 	return pkt;
 }
 
+//reads, parses and processes lines from the input file that correspond to the current total_time value
+//returns the number of packets in the time interval from the last time this function was called until the current total_time
 int receive_until_time() {
 	packet_info* pkt;
 	int num_received = 0;
@@ -58,7 +60,6 @@ int receive_until_time() {
 	}
 
 	while ((pkt = parse_line()) != NULL) {
-		//print_pkt_info(pkt); //debug
 		pkt_time = atoi(pkt->Time);
 		if (pkt_time > total_time) { //if we overread
 			over_pkt = pkt; //saving overread packet for next time change
@@ -70,6 +71,9 @@ int receive_until_time() {
 	return num_received;
 }
 
+//creats a packet_info object from a line that was read from the input file
+//calls get_line and new_packet functions
+//returns the packet_info object
 packet_info* parse_line() {
 	char line[128];
 	char* weight;
@@ -93,17 +97,4 @@ packet_info* parse_line() {
 		strcpy(pkt->weight, default_weight);
 	}
 	return pkt;
-}
-
-void tests() {
-	//testing receive_until_time
-	if (1) {
-		int num_received;
-		while (total_time < 120) {
-			num_received = receive_until_time();
-			printf("total_time is currently - %d, received %d lines\n", total_time, num_received);
-			total_time += 1;
-		}
-	}
-	printf("done tests\n");
 }
