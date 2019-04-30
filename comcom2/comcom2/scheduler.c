@@ -39,7 +39,7 @@ int check_RR(flow_node* flow, int flow_sent_count) {
 
 int send_single_packet(flow_node* flow) {
 	fprintf(outfile, "%d: %d\n", total_time, flow->packets_list->packet_id);
-	total_time += flow->packets_list->packet_length; //error here
+	total_time += flow->packets_list->packet_length;
 	delete_packet_node_from_flow(flow, flow->packets_list);
 	return 1;
 }
@@ -138,16 +138,18 @@ flow_node* goto_next_flow_drr(flow_node* current_node) {
 		}
 		else {
 			node_ptr->credit = 0;
+			node_ptr = node_ptr->next;
 		}
 	}
-
-	current_node->credit = 0;
+	if (current_node->packets_list == NULL) {
+		current_node->credit = 0;
+	}
 	return current_node;
 }
 	
 int send_single_packet_drr(flow_node* flow) {
 	fprintf(outfile, "%d: %d\n", total_time, flow->packets_list->packet_id);
-	total_time += flow->packets_list->packet_length; //error here
+	total_time += flow->packets_list->packet_length;
 	flow->credit -= flow->packets_list->packet_length;
 	delete_packet_node_from_flow(flow, flow->packets_list);
 	return 1;
@@ -171,8 +173,8 @@ int deficit_round_robin() {
 	int counter = 0;
 
 	while (1) {
-		printf("%d\n", counter);
-		counter += 1;
+		
+		//counter += 1;
 		// receiving packets according to time
 		
 		num_received = receive_until_time();
@@ -193,7 +195,7 @@ int deficit_round_robin() {
 			}
 			first_time = 0;
 		}
-		//printf("-> %s\n", curr_flow->flow_identifier);
+		
 		// finding a none-empty flow to send from
 		if (curr_flow->packets_list == NULL) {
 			curr_flow = goto_next_flow_drr(curr_flow);

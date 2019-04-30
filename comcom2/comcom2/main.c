@@ -17,7 +17,7 @@ int initialize(char* infile_path, char* outfile_path) {
 		return -1;
 	}
 	total_time = 0;
-	default_weight = "1";
+	default_weight = "3";
 	quantum = 2;
 	return 1;
 }
@@ -39,7 +39,7 @@ int main() {
 	char* out_path = "out.txt";
 	initialize(in_path, out_path);
 	//weighted_round_robin();
-	deficit_round_robin(100);
+	deficit_round_robin();
 	finalize();
 	return 1;
 }
