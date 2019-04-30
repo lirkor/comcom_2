@@ -37,7 +37,8 @@ flow_node* search_flow(char* flow_id) {
 
 
 
-
+/* Add a single flow to the linked list. 
+ * the method performs an queuing operation of adding the new flow at the end */
 flow_node* add_flow(char* flow_id, char* flow_weight) {
 	flow_node* new_flow_node;
 	
@@ -95,6 +96,9 @@ packet_node* search_packet_node_at_flow(flow_node* flow, long packet_id) {
 }
 
 
+/* Adds a single packet to specific flow. 
+ * The packets are saved in a queue data structre. 
+ */
 packet_node* add_packet_to_flow(flow_node* flow, long packet_id, int length) {
 	packet_node* new_packet_node;
 
@@ -125,7 +129,6 @@ int delete_packet_node_from_flow(flow_node* flow, packet_node* packet_to_delete)
 	/* The flow contains single packet */
 	if (packet_to_delete->next == NULL && packet_to_delete->prev == NULL) {
 		if (flow->packets_list != packet_to_delete) {
-			printf("DEBUG: SOMETHING WRONG WITH THE PACKET LIST(1)\n");
 			return 1;
 		}
 		flow->packets_list = NULL;
@@ -134,7 +137,6 @@ int delete_packet_node_from_flow(flow_node* flow, packet_node* packet_to_delete)
 	}
 	else if (packet_to_delete->next == NULL && packet_to_delete->prev != NULL) {
 		if (flow->last_packet_node != packet_to_delete) {
-			printf("DEBUG: SOMETHING WRONG WITH THE PACKET LIST(2)\n");
 			return 1;
 		}
 
@@ -144,7 +146,6 @@ int delete_packet_node_from_flow(flow_node* flow, packet_node* packet_to_delete)
 	}
 	else if (packet_to_delete->prev == NULL && packet_to_delete->next != NULL) {
 		if (flow->packets_list != packet_to_delete) {
-			printf("DEBUG: SOMETHING WRONG WITH THE PACKET LIST(3)\n");
 		}
 		flow->packets_list = packet_to_delete->next;
 		packet_to_delete->next->prev = NULL;
@@ -156,7 +157,6 @@ int delete_packet_node_from_flow(flow_node* flow, packet_node* packet_to_delete)
 		free(packet_to_delete);
 	}
 	else {
-		printf("DEBUG: SOMETHING WRONG WITH THE PACKET LIST(4)\n");
 	}
 
 	return 0;

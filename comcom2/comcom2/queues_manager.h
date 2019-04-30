@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 
+/* A single node holding the packet information */
 typedef struct packet_node {
 
 	long packet_id;
@@ -12,7 +13,9 @@ typedef struct packet_node {
 
 }packet_node;
 
-
+/* A single node holding the flow information. The flow's packets are saved in linked list pointed
+ * to by 'packet_list' field.
+ */
 typedef struct flow_node {
 
 	char		 flow_identifier[50];
@@ -27,7 +30,7 @@ typedef struct flow_node {
 } flow_node;
 
 
-
+/* The sentinel of starting the flows linked list */
 typedef struct flows_control_sentinel {
 
 	flow_node*	 flows_list;

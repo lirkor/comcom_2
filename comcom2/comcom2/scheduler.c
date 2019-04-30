@@ -6,6 +6,10 @@
 #include <string.h>
 
 
+/* Process the packet info from the parsed line into a struct holding the fields of the packet.
+ * The flow id consist of concatinating the ip and port to each other, resulting a uniqe string for
+ * for each flow.
+ */
 int process_packet_info(packet_info* pkt) {
 	char flow_id[50];
 	flow_node* working_flow;
@@ -26,7 +30,7 @@ int process_packet_info(packet_info* pkt) {
 }
 
 
-
+/* Check if a packet (the first one in the queue) can be sent by the rules of weighted round robin */
 int check_RR(flow_node* flow, int flow_sent_count) {
 	if (flow_sent_count < flow->weight) {
 		return 1;
@@ -36,7 +40,9 @@ int check_RR(flow_node* flow, int flow_sent_count) {
 	}
 }
 
-
+/* The method of sending a single packet, The actual send is writing to file the time stamp and
+ * the packet id. After sending the packet the time is updated and the packet is deleted from the flow.
+ */
 int send_single_packet(flow_node* flow) {
 	fprintf(outfile, "%d: %d\n", total_time, flow->packets_list->packet_id);
 	total_time += flow->packets_list->packet_length;
@@ -45,6 +51,9 @@ int send_single_packet(flow_node* flow) {
 }
 
 
+/* Go to the closest time containd a packet.
+ * The function is called only when no packets left to send and all the flows are empty.
+ */
 int goto_closest_time() {
 	if (over_pkt == NULL) {
 		over_pkt = parse_line();
@@ -56,6 +65,7 @@ int goto_closest_time() {
 	return 1;
 }
 
+/* Round robin function - go to the closest flow which has a packet to send. */
 void goto_next_flow(flow_node** curr_flow_ptr, int* sent_count_ptr) {
 	*curr_flow_ptr = (*curr_flow_ptr)->next;
 	*sent_count_ptr = 0;
@@ -114,7 +124,7 @@ int weighted_round_robin() {
 }
 
 
-
+/* Check if a packet can be send from the flow by the deficit-RR rules. */
 int check_DRR(flow_node* flow) {
 	if (flow->credit >= flow->packets_list->packet_length) {
 		return 1;
@@ -130,7 +140,11 @@ int update_flow_credit(flow_node* curr_flow) {
 }
 
 
-
+/* DRR function of going to the next flow which contains a packet to send.
+ * The looping continues until the initial flow is reached, which means the list is empty, maybe
+ * except one flow.
+ * For each flow with no packets in it - the credit is reset.
+ */
 flow_node* goto_next_flow_drr(flow_node* current_node) {
 	flow_node* node_ptr;
 	node_ptr = current_node->next;
@@ -155,6 +169,11 @@ flow_node* goto_next_flow_drr(flow_node* current_node) {
 	return current_node;
 }
 	
+
+/* The function that imitates the sending of the packet by writing its time stamp to file.
+ * it also changes the total time by DRR rules (increasing by the packet sending time), and decreasing the 
+ * credit amount from the flow. After it, the packet is being deleted (dequeue). 
+ */
 int send_single_packet_drr(flow_node* flow) {
 	fprintf(outfile, "%d: %d\n", total_time, flow->packets_list->packet_id);
 	total_time += flow->packets_list->packet_length;
@@ -167,7 +186,7 @@ int send_single_packet_drr(flow_node* flow) {
 
 
 
-
+/* The main function of DRR which manages the deficit round robin scheduler */
 int deficit_round_robin() {
 	flow_node* curr_flow = NULL; //points to the current working flow
 	int num_received;
