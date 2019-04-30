@@ -17,8 +17,8 @@ int initialize(char* infile_path, char* outfile_path) {
 		return -1;
 	}
 	total_time = 0;
-	default_weight = "30";
-	quantum = 200;
+	default_weight = "1";
+	quantum = 2;
 	return 1;
 }
 
