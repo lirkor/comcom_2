@@ -6,7 +6,7 @@
 FILE* infile;
 FILE* outfile;
 long int total_time;
-char* default_weight;
+char default_weight[20];
 int quantum;
 //function declarations
 

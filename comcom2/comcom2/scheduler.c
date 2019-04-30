@@ -125,6 +125,12 @@ int check_DRR(flow_node* flow) {
 }
 
 
+int update_flow_credit(flow_node* curr_flow) {
+	curr_flow->credit += (curr_flow->weight) * quantum;
+}
+
+
+
 flow_node* goto_next_flow_drr(flow_node* current_node) {
 	flow_node* node_ptr;
 	node_ptr = current_node->next;
@@ -134,6 +140,7 @@ flow_node* goto_next_flow_drr(flow_node* current_node) {
 			node_ptr = flows.flows_list;
 		}
 		if (node_ptr->packets_list != NULL) {
+			update_flow_credit(node_ptr);
 			return node_ptr;	// return the first found flow with a packet
 		}
 		else {
@@ -141,6 +148,7 @@ flow_node* goto_next_flow_drr(flow_node* current_node) {
 			node_ptr = node_ptr->next;
 		}
 	}
+	update_flow_credit(current_node);
 	if (current_node->packets_list == NULL) {
 		current_node->credit = 0;
 	}
@@ -157,9 +165,7 @@ int send_single_packet_drr(flow_node* flow) {
 
 
 
-int update_flow_credit(flow_node* curr_flow) {
-	curr_flow->credit += (curr_flow->weight) * quantum ;
-}
+
 
 
 int deficit_round_robin() {
@@ -199,9 +205,8 @@ int deficit_round_robin() {
 		// finding a none-empty flow to send from
 		if (curr_flow->packets_list == NULL) {
 			curr_flow = goto_next_flow_drr(curr_flow);
+			
 		}
-
-		update_flow_credit(curr_flow);
 
 		// sending a single packet from flow, if allowed
 		send_packet = check_DRR(curr_flow);
