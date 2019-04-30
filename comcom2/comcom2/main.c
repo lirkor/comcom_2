@@ -4,8 +4,9 @@
 #include "queues_manager.h"
 #include "scheduler.h"
 #include <string.h>
-//#define _CRT_SECURE_NO_WARNINGS
 
+//initialization function, opens the input and output files for reading and writing
+//uses the command line arguments to give initial values for the weight an quantum variables
 int initialize(char* infile_path, char* outfile_path, char* _default_weight, char* _quantum) {
 	if ((infile = fopen(infile_path, "r")) == NULL) {
 		printf("error opening infile from path %s", infile_path);
@@ -23,6 +24,8 @@ int initialize(char* infile_path, char* outfile_path, char* _default_weight, cha
 	return 1;
 }
 
+//finalization function
+//closes the files that were opened for reading and writing
 int finalize() {
 	if (infile != NULL) {
 		fclose(infile);
@@ -36,7 +39,7 @@ int finalize() {
 
 
 int main(int argc, char* argv[]) {
-
+	//usage check
 	if (argc != 6) {
 		printf("Number of arguments is invalid\nExiting...\n");
 		exit(1);
@@ -44,6 +47,7 @@ int main(int argc, char* argv[]) {
 
 	initialize(argv[2], argv[3], argv[4], argv[5]);
 	
+	//choosing scheduling type according to command line argument
 	if (strcmp(argv[1], "RR") == 0) {
 		weighted_round_robin();
 	}
