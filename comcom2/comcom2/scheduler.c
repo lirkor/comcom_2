@@ -227,6 +227,7 @@ int deficit_round_robin() {
 			
 		}
 
+
 		// sending a single packet from flow, if allowed
 		send_packet = check_DRR(curr_flow);
 		if (send_packet) { // we are allowed to send a packet from the current flow
