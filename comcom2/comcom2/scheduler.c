@@ -91,7 +91,7 @@ int weighted_round_robin() {
 		num_received = receive_until_time();
 		if (num_received == 0 && total_packets == 0) {
 			if (goto_closest_time() == -1) {
-				printf("reached end of input file and sent all packets, exiting\n");
+				//printf("reached end of input file and sent all packets, exiting\n");
 				break;
 			}
 			num_received = receive_until_time();
@@ -205,7 +205,7 @@ int deficit_round_robin() {
 		num_received = receive_until_time();
 		if (num_received == 0 && total_packets == 0) {
 			if (goto_closest_time() == -1) {
-				printf("reached end of input file and sent all packets, exiting\n");
+				//printf("reached end of input file and sent all packets, exiting\n");
 				break;
 			}
 			num_received = receive_until_time();
